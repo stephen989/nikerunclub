@@ -4,9 +4,12 @@ import json
 import time
 from tqdm import tqdm
 import os
+import pyperclip as pc
 
 
-bearer_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImVkZmY4YTAyLWIyZGEtNDhkZC1iOGVjLThhMmM1MGE2YTM0MnNpZyJ9.eyJ0cnVzdCI6MTAwLCJpYXQiOjE2NDU4NzcyNDcsImV4cCI6MTY0NTg4MDg0NywiaXNzIjoib2F1dGgyYWNjIiwianRpIjoiZTNiZDI3ZmItMWU4NS00M2QwLWEyYTMtOWJjMzk3YTRmNWZiIiwibGF0IjoxNjQ1ODMxNTExLCJhdWQiOiJjb20ubmlrZS5kaWdpdGFsIiwic3ViIjoiY29tLm5pa2UuY29tbWVyY2UubmlrZWRvdGNvbS53ZWIiLCJzYnQiOiJuaWtlOmFwcCIsInNjcCI6WyJuaWtlLmRpZ2l0YWwiXSwicHJuIjoiNjEyNjUwNDEwNCIsInBydCI6Im5pa2U6cGx1cyJ9.jtSk-57-sOaDKXGhSL2uS9w2yxcPALdaUpK6buli8aa0V1Yrw_NtyiUr05G-N3ms8BZgx3LDp360EGDhBaan-GUGNkn2M7qBhmggMak3TsecZZi6oBOeotl9MR4S6D5FT0iTy_zyal-wY5Wosq_t14rjHf7QiPsNDilqdVFvi_xyZvSFrAvaluNQgDWFIkZGWlevVaq1XgOmorq-kwC1_kcHvPZTdjrvwO71KyouLDnkquQdMxzaZJ7q-TH9pPl6xnGciRA0qSJ1I0pK4Mx5oBbBlziWitDo5eVAbEy_P4obDOkvdP5lhiABDFR--nIWNBRSuXC3Sl5068vV086L1A"
+bearer_token = input("Enter bearer token. If token is in your clipboard, hit Enter.")
+if not bearer_token:
+    bearer_token = pc.paste()
 headers = {'content-type': 'application/json', "Authorization": f"Bearer {bearer_token}"}
 
 
@@ -48,7 +51,7 @@ def get_all_details(bearer_token = None):
     nruns = len(runs)
     run_dict = dict()
     print(f"Downloading details of {nruns} runs.")
-    for run in tqdm(runs):
+    for run in tqdm(runs, unit = "runs"):
         run_dict[run["id"]] = get_run_details(run['id'], headers)
     return runs, run_dict
 
